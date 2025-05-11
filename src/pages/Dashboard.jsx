@@ -92,6 +92,7 @@ export default function Dashboard() {
     );
   }
 
+  // Memoizing data calculations
   const weeklyData = useMemo(() => {
     const counts = Array(7).fill(0);
     data.members.forEach(({ joined_at }) => {
