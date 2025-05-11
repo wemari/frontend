@@ -6,7 +6,7 @@ import {
 import { Plus } from 'lucide-react';
 import CloseIcon from '@mui/icons-material/Close';
 import MemberAutoComplete from '../components/common/MemberAutoComplete'; // adjust path if needed
-
+import { DataGrid } from '@mui/x-data-grid';
 import { EditIcon, DeleteIcon } from '../components/common/ActionIcons'; // Updated import
 import ConfirmDialog from '../components/common/ConfirmDialog'; // Updated import
 import SnackbarAlert from '../components/common/SnackbarAlert'; // Updated import
