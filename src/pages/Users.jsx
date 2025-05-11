@@ -1,13 +1,15 @@
+// src/pages/Users.jsx
+
 import {
   Container, Typography, Button, Dialog, DialogActions, DialogContent, DialogTitle,
   TextField, Checkbox, FormControlLabel, CircularProgress, Box, IconButton, Chip, Stack, Drawer, Divider, Switch, Tooltip
 } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid'; // ✅ Import DataGrid
+import { DataGrid } from '@mui/x-data-grid';
 import { useEffect, useState, useContext } from 'react';
 import { PlusIcon, UserCogIcon, LockOpenIcon, KeyIcon } from 'lucide-react';
-import { EditIcon, DeleteIcon, CloseIcon } from '../components/common/ActionIcons'; // Updated import
+import { EditIcon, DeleteIcon, CloseIcon } from '../components/common/ActionIcons';
 import SnackbarAlert from '../components/common/SnackbarAlert';
-import ConfirmDialog from '../components/common/ConfirmDialog'; // Added ConfirmDialog import
+import ConfirmDialog from '../components/common/ConfirmDialog';
 import { getUsers, registerUser, assignRoleToUser, removeRoleFromUser, updateUser, deleteUser, resetTempPassword, unlockUser, toggleActive } from '../api/users';
 import { getRoles } from '../api/roles';
 import SearchBar from '../components/SearchBar';
@@ -27,7 +29,7 @@ export default function Users() {
   const [search, setSearch] = useState('');
   const [roleLoading, setRoleLoading] = useState(false);
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
-  const [confirmDialog, setConfirmDialog] = useState({ open: false, onConfirm: null }); // Added ConfirmDialog state
+  const [confirmDialog, setConfirmDialog] = useState({ open: false, onConfirm: null });
 
   const { permissions } = useContext(AuthContext);
 
@@ -161,11 +163,30 @@ export default function Users() {
 
   const handleToggleActiveStatus = async (user) => {
     try {
-      await toggleActive(user.id, !user.is_active); // Assuming `toggleActive` API toggles the active status
+      await toggleActive(user.id, !user.is_active);
       showSnackbar(`User ${user.is_active ? 'deactivated' : 'activated'} successfully.`);
-      loadUsers(); // Reload the user list to reflect changes
+      loadUsers();
     } catch {
       showSnackbar('Failed to update user status.', 'error');
+    }
+  };
+
+  const handleResetPassword = async (userId) => {
+    try {
+      const tempPassword = await resetTempPassword(userId);
+      showSnackbar(`Temporary password reset. New temp password: ${tempPassword}`);
+    } catch {
+      showSnackbar('Failed to reset password', 'error');
+    }
+  };
+
+  const handleUnlock = async (userId) => {
+    try {
+      await unlockUser(userId);
+      showSnackbar('User account unlocked successfully.');
+      loadUsers();
+    } catch {
+      showSnackbar('Failed to unlock user.', 'error');
     }
   };
 
@@ -256,7 +277,6 @@ export default function Users() {
               <DeleteIcon onClick={() => handleDeleteUser(params.row)} />
             </Tooltip>
           )}
-          
         </Stack>
       ),
     },
