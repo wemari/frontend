@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import {
   Container, Typography, Grid, Paper, Box, Button, Modal, TextField, useTheme
 } from '@mui/material';
@@ -92,8 +92,8 @@ export default function Dashboard() {
     );
   }
 
-  // Memoizing data calculations
-  const weeklyData = useMemo(() => {
+  // Remove useMemo and calculate data directly
+  const weeklyData = () => {
     const counts = Array(7).fill(0);
     data.members.forEach(({ joined_at }) => {
       const d = new Date(joined_at);
@@ -102,15 +102,15 @@ export default function Dashboard() {
       }
     });
     return ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map((day, i) => ({ day, count: counts[i] }));
-  }, [data.members, dateRange]);
+  };
 
-  const monthlyPrayers = useMemo(() => {
+  const monthlyPrayers = () => {
     const counts = Array(12).fill(0);
     data.prayers.forEach(({ created_at }) => counts[getMonth(new Date(created_at))]++);
     return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].map((m,i) => ({ month: m, count: counts[i] }));
-  }, [data.prayers]);
+  };
 
-  const sessionModes = useMemo(() => {
+  const sessionModes = () => {
     const map = {};
     const sessions = Array.isArray(data.sessions) ? data.sessions : [];
 
@@ -120,7 +120,7 @@ export default function Dashboard() {
     });
 
     return Object.entries(map).map(([name, value]) => ({ name, value }));
-  }, [data.sessions]);
+  };
 
   const handleDrill = (items, title) => {
     setDrillData({ items, title });
@@ -170,7 +170,7 @@ export default function Dashboard() {
           <Paper sx={{ p: 3, height: 450, width: '100%' }}>
             <Typography variant="subtitle1">New Members / Week</Typography>
             <ResponsiveContainer width="100%" height="90%">
-              <BarChart data={weeklyData}>
+              <BarChart data={weeklyData()}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="day" />
                 <YAxis allowDecimals={false} />
@@ -186,7 +186,7 @@ export default function Dashboard() {
           <Paper sx={{ p: 3, height: 450, width: '100%' }}>
             <Typography variant="subtitle1">Prayer Requests / Month</Typography>
             <ResponsiveContainer width="100%" height="90%">
-              <LineChart data={monthlyPrayers}>
+              <LineChart data={monthlyPrayers()}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
                 <YAxis allowDecimals={false} />
@@ -203,7 +203,7 @@ export default function Dashboard() {
           <Paper sx={{ p: 3, height: 450, width: '100%' }}>
             <Typography variant="subtitle1">Session Modes Breakdown</Typography>
             <ResponsiveContainer width="100%" height="90%">
-              <BarChart data={sessionModes}>
+              <BarChart data={sessionModes()}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
                 <YAxis allowDecimals={false} />
