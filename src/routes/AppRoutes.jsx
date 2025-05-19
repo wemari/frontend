@@ -16,6 +16,9 @@ import MemberInteractionPage from '../pages/MemberInteractionPage';
 import MemberUserProfileWrapper from '../components/memberProfile/MemberUserProfileWrapper';
 import MemberDashboard from '../pages/MemberDashboard';
 import SettingsPage from '../pages/SettingsPage';
+import ActivateAccount from '../pages/ActivateAccount';
+import VerifyEmail from '../pages/VerifyEmail';
+
 
 import EventsList from '../components/events/EventsList';
 import EventForm from '../components/events/EventForm';
@@ -43,6 +46,10 @@ export default function AppRoutes() {
       <Route path="/register" element={<Register />} />
       <Route path="/request-reset" element={<RequestReset />} />
       <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/activate" element={<ActivateAccount />} />
+      <Route path="/verify-email" element={<VerifyEmail />} />
+
+
 
       {/* Admin Only Routes */}
       <Route element={<ProtectedRoute allowedRoles={['admin']} />}>

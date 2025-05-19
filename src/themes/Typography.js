@@ -1,22 +1,22 @@
 const typography = {
-  fontFamily: "'DM Sans', sans-serif",
+  fontFamily: "'Outfit', sans-serif",
   h1: {
     fontWeight: 600,
     fontSize: '2.25rem',
     lineHeight: '2.75rem',
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: "'Outfit', sans-serif",
   },
   h2: {
     fontWeight: 600,
     fontSize: '1.875rem',
     lineHeight: '2.25rem',
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: "'Outfit', sans-serif",
   },
   h3: {
     fontWeight: 600,
     fontSize: '1.5rem',
     lineHeight: '1.75rem',
-    fontFamily: "'DM Sans', sans-serif",
+    fontFamily: "'Outfit', sans-serif",
   },
   h4: {
     fontWeight: 600,

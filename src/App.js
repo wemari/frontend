@@ -11,35 +11,35 @@ import { AuthProvider, AuthContext } from './contexts/AuthContext';
 import { NotificationProvider } from './contexts/NotificationContext';
 import AppRoutes from './routes/AppRoutes';
 
+// Inner app content
 function AppContent() {
-  const { mode } = useContext(AuthContext);
+  const { mode, memberId } = useContext(AuthContext); // ✅ move this here
 
-  return (
-    <ThemeProvider theme={getTheme(mode)}>
+  const theme = getTheme(mode);
+
+  const content = (
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       <AppRoutes />
       <ToastContainer />
     </ThemeProvider>
   );
+
+  return memberId
+    ? <NotificationProvider memberId={memberId}>{content}</NotificationProvider>
+    : content;
 }
 
+// Main app wrapped with Router
 function App() {
-  const { memberId } = useContext(AuthContext);
-
   return (
     <Router>
-      {/* Only wrap NotificationProvider once we have memberId */}
-      {memberId
-        ? <NotificationProvider memberId={memberId}>
-            <AppContent />
-          </NotificationProvider>
-        : <AppContent />
-      }
+      <AppContent />
     </Router>
   );
 }
 
-// Top‐level export with AuthProvider
+// Root wrapper with AuthProvider
 export default function Root() {
   return (
     <AuthProvider>
